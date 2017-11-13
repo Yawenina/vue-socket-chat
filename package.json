@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/Yawenina/vue-socket-chat.git",
-  "author": "xiaoyawen <xiaoyawen@finogeeks.com>",
+  "author": "Yawenina <xiaoywkate@163.com>",
   "license": "MIT",
   "scripts": {
     "watch": "nodemon ./start.js --ignore public/",
-    "assets": "webpack",
-    "dev": 
+    "assets": "webpack"
   },
   "dependencies": {
     "express": "^4.16.2",
