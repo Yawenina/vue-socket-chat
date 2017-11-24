@@ -1,21 +1,20 @@
-const app = require('express')()
-const http = require('http').Server(app)
-const io = require('socket.io')(http)
+const express = require('express')
 
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html')
+const app = express()
+const path = require('path')
+const io = require('socket.io')
+
+const Chat = require('./app.js')
+
+app.use(express.static(path.join(__dirname, 'public')))
+
+app.set('port', process.env.PORT || 3000)
+
+const server = app.listen(app.get('port'), () => {
+  console.log(`Express running 👉  ${server.address().port}`)
 })
 
-io.on('connection', (socket) => {
-  console.log('a user connected')
-  socket.on('disconnect', () => {
-    console.log('user disconnect')
-  })
-  socket.on('chat message', (msg) => {
-    io.emit('chat message', msg)
-  })
-})
-
-http.listen(3000, () => {
-  console.log('listening on 3000')
+const chatIO = io(server)
+chatIO.on('connection', (socket) => {
+  Chat.initChat(chatIO, socket)
 })
