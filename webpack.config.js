@@ -1,16 +1,25 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: './public/src/index.ts',
   output: {
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, './public/dist'),
     publicPath: '/dist/',
     filename: 'build.js'
   },
   module: {
     rules: [
+      {
+        test: /\.sass$/,
+        use: ExtractTextPlugin.extract({
+          use: ['css-loader', 'sass-loader'],
+          // 在开发环境使用 style-loader
+          fallback: 'style-loader'
+        })
+      },
       {
         test: /\.vue$/,
         loader: 'vue-loader',
@@ -57,7 +66,8 @@ module.exports = {
   },
   devtool: '#eval-source-map',
   plugins: [
-    new HtmlWebpackPlugin('./public/index.html')
+    new HtmlWebpackPlugin('./public/index.html'),
+    new ExtractTextPlugin('style.css')
   ]
 }
 
